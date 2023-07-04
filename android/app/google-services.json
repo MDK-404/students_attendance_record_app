@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "34028566467",
+    "project_id": "student-attendance-b4f71",
+    "storage_bucket": "student-attendance-b4f71.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:34028566467:android:ba020b1d39903c2ba0ef76",
+        "android_client_info": {
+          "package_name": "com.example.students_attendance_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "34028566467-vn8fnuc4q8g6vdebme2or1d0dhmsj3kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB__0G1LreCp2R6o64QMnr-OsE34X2V7Yo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "34028566467-vn8fnuc4q8g6vdebme2or1d0dhmsj3kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
