@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:students_attendance_app/screens/user_dashboard.dart';
 
 class Login_Screen extends StatefulWidget {
-  const Login_Screen({Key? key}) : super(key: key);
+
+  const Login_Screen({Key? key,}) : super(key: key);
 
   @override
   _Login_ScreenState createState() => _Login_ScreenState();
@@ -88,10 +90,9 @@ class _Login_ScreenState extends State<Login_Screen> {
                   const SizedBox(height: 24),
                   ElevatedButton(
                     onPressed: () {
-                      Navigator.pushNamed(context, 'home');
+                      Navigator.pushNamed(context, 'user_dashboard');
                     },
-                    child: const Text('Log in'),
-
+                    child: Text("login") ,
                   ),
                   const SizedBox(height: 16),
                   InkWell(

@@ -15,6 +15,7 @@ class Student{
     required this.studentname,
     required this.fathername,
 
+
   });
 
 
@@ -24,6 +25,7 @@ class Student{
     "email": email,
     "photoUrl": photoUrl,
     "fathername": fathername,
+
 
 
   };
@@ -37,6 +39,7 @@ class Student{
       email: snapshot['email'],
       photoUrl: snapshot['photoUrl'],
       fathername: snapshot['fathername'],
+
 
     );
   }

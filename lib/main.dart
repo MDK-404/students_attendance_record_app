@@ -7,6 +7,7 @@ import 'package:students_attendance_app/screens/home_screen.dart';
 
 import 'package:students_attendance_app/screens/login_screen.dart';
 import 'package:students_attendance_app/screens/register_screen.dart';
+import 'package:students_attendance_app/screens/user_dashboard.dart';
 import 'package:students_attendance_app/utils/color.dart';
 
 
@@ -72,6 +73,7 @@ class MyApp extends StatelessWidget {
           'home': (context) => HomeScreen(),
           'signup': (context) => SignupScreen(),
           'user login': (context) => Login_Screen(),
+          'user_dashboard':(context)=>UserDashBoard(uid: 'uid',)
 
 
         },

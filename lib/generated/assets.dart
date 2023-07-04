@@ -6,6 +6,7 @@ class Assets {
   static const String assetsRegister = 'lib/assets/register.png';
   static const String generatedAssets = 'lib/generated/assets.dart';
   static const String libMain = 'lib/main.dart';
+  static const String modelsAttendance = 'lib/models/attendance.dart';
   static const String modelsStudents = 'lib/models/students.dart';
   static const String resourcesAuthMethods = 'lib/resources/auth_methods.dart';
   static const String resourcesStorageMethods = 'lib/resources/storage_methods.dart';
