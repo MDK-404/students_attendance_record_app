@@ -165,7 +165,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, 'login');
+                        Navigator.pushNamed(context, 'user login');
                       },
                       child: Container(
                         child: Text("Login.",

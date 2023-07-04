@@ -59,6 +59,9 @@ class _Login_ScreenState extends State<Login_Screen> {
                       fillColor: Colors.grey.shade100,
                       filled: true,
                       hintText: 'Email',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       prefixIcon: const Icon(Icons.email),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
@@ -73,6 +76,9 @@ class _Login_ScreenState extends State<Login_Screen> {
                       fillColor: Colors.grey.shade100,
                       filled: true,
                       hintText: 'Password',
+                      hintStyle: TextStyle(
+                        color: Colors.black,
+                      ),
                       prefixIcon: const Icon(Icons.lock),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),

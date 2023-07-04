@@ -43,7 +43,7 @@ class MyApp extends StatelessWidget {
        //providers
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Instagram Clone',
+        title: 'Student Attendance Record',
         theme: ThemeData.dark().copyWith(
           scaffoldBackgroundColor: mobileBackgroundColor,
         ),
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.active) {
                 if (snapshot.hasData) {
-                  return const HomeScreen(
+                  return  HomeScreen(
 
                   );
                 } else if (snapshot.hasError) {
@@ -66,12 +66,12 @@ class MyApp extends StatelessWidget {
                       color: primaryColor,
                     ));
               }
-              return const Login_Screen();
+              return  HomeScreen();
             }),
         routes: {
           'home': (context) => HomeScreen(),
           'signup': (context) => SignupScreen(),
-          'login': (context) => Login_Screen(),
+          'user login': (context) => Login_Screen(),
 
 
         },
