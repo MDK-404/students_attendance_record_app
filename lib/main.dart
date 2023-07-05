@@ -73,7 +73,7 @@ class MyApp extends StatelessWidget {
           'home': (context) => HomeScreen(),
           'signup': (context) => SignupScreen(),
           'user login': (context) => Login_Screen(),
-          'user_dashboard':(context)=>UserDashBoard(uid: 'uid',)
+          'user_dashboard':(context)=>UserDashBoard()
 
 
         },

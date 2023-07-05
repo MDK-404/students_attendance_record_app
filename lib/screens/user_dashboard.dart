@@ -1,64 +1,34 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class UserDashBoard extends StatelessWidget {
-  final String uid; // Assuming you have the student ID
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  // runApp(MyApp());
+}
 
-  UserDashBoard({required this.uid});
+// class MyApp extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       title: 'Attendance App',
+//       theme: ThemeData(
+//         primarySwatch: Colors.blue,
+//       ),
+//       home: UserDashBoard(),
+//     );
+//   }
+// }
 
-  void markAttendance(BuildContext context) async {
-    DateTime currentDate = DateTime.now();
-    DocumentSnapshot attendanceSnapshot = await FirebaseFirestore.instance
-        .collection('attendance')
-        .doc(currentDate.toString())
-        .get();
+class UserDashBoard extends StatefulWidget {
+  @override
+  _UserDashBoardState createState() => _UserDashBoardState();
+}
 
-    if (attendanceSnapshot.exists) {
-      // Attendance already marked for the day
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Attendance already marked'),
-            content: Text('You have already marked your attendance for today.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    } else {
-      // Mark attendance for the current date
-      await FirebaseFirestore.instance
-          .collection('attendance')
-          .doc(currentDate.toString())
-          .set({'uid': uid});
-
-      // Display success message or perform any other actions
-      showDialog(
-        context: context,
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: Text('Attendance marked'),
-            content: Text('Your attendance for today has been marked successfully.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
+class _UserDashBoardState extends State<UserDashBoard> {
+  bool hasMarkedAttendance = false;
 
   @override
   Widget build(BuildContext context) {
@@ -67,11 +37,117 @@ class UserDashBoard extends StatelessWidget {
         title: Text('User Panel'),
       ),
       body: Center(
-        child: ElevatedButton(
-          child: Text('Mark Attendance'),
-          onPressed: () => markAttendance(context), // Pass the context here
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: hasMarkedAttendance ? null : markAttendance,
+              child: Text('Mark Attendance'),
+            ),
+          ],
         ),
       ),
     );
   }
+  void markAttendance() async {
+    User? user = FirebaseAuth.instance.currentUser;
+
+      String ?uid = user?.uid;
+      String studentname = '';
+      String fathername = '';
+      DateTime currentDate = DateTime.now();
+
+      // Retrieve user details from the "users" collection
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .get();
+
+      if (userSnapshot.exists) {
+        studentname = userSnapshot.get('studentname') ?? '';
+        fathername = userSnapshot.get('fathername') ?? '';
+      }
+
+      // Check if attendance record already exists for the current user and current date
+      DateTime startOfCurrentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
+      DateTime endOfCurrentDate = startOfCurrentDate.add(Duration(days: 1));
+
+      QuerySnapshot attendanceSnapshot = await FirebaseFirestore.instance
+          .collection('attendance')
+          .where('uid', isEqualTo: uid)
+          .where('date', isGreaterThanOrEqualTo: startOfCurrentDate)
+          .where('date', isLessThan: endOfCurrentDate)
+          .get();
+
+      if (attendanceSnapshot.docs.isNotEmpty) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('You have already marked your attendance for today.'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        try {
+          await FirebaseFirestore.instance.collection('attendance').add({
+            'uid': uid,
+            'studentname': studentname,
+            'fathername': fathername,
+            'date': currentDate,
+          });
+
+          setState(() {
+            hasMarkedAttendance = true;
+          });
+
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Success'),
+                content: Text('Your attendance has been marked.'),
+                actions: [
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        } catch (error) {
+          showDialog(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('Error'),
+                content: Text('Failed to mark your attendance. Please try again.'),
+                actions: [
+                  TextButton(
+                    child: Text('OK'),
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+
+      }
+    }
+  }
+
 }

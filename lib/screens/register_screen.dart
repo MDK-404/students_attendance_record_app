@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:students_attendance_app/resources/auth_methods.dart';
+import 'package:students_attendance_app/screens/user_dashboard.dart';
 import 'package:students_attendance_app/utils/color.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -59,7 +60,7 @@ class _SignupScreenState extends State<SignupScreen> {
     if(result!='success'){
       showSnackBar(result, context);
     }else{
-      Navigator.pushNamed(context, 'home');
+      Navigator.pushNamed(context, 'user_dashboard');
     }
 
 
