@@ -49,43 +49,68 @@ class _UserDashBoardState extends State<UserDashBoard> {
       ),
     );
   }
+
   void markAttendance() async {
-    User? user = FirebaseAuth.instance.currentUser;
+    String? uid = FirebaseAuth.instance.currentUser?.uid;
+    String studentname = '';
+    String fatherName = '';
+    DateTime currentDate = DateTime.now();
 
-      String ?uid = user?.uid;
-      String studentname = '';
-      String fathername = '';
-      DateTime currentDate = DateTime.now();
+    // Retrieve user details from the "users" collection
+    DocumentSnapshot userSnap = await FirebaseFirestore.instance.collection('users').doc(uid).get();
+    if (userSnap.exists) {
+      studentname = userSnap.get('studentname') ?? '';
+      fatherName = userSnap.get('fathername') ?? '';
+    }
 
-      // Retrieve user details from the "users" collection
-      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
-          .collection('users')
-          .doc(uid)
-          .get();
+    // Check if attendance record already exists for the current user and current date
+    DateTime startOfCurrentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
+    DateTime endOfCurrentDate = startOfCurrentDate.add(Duration(days: 1));
 
-      if (userSnapshot.exists) {
-        studentname = userSnapshot.get('studentname') ?? '';
-        fathername = userSnapshot.get('fathername') ?? '';
-      }
+    QuerySnapshot attendanceSnapshot = await FirebaseFirestore.instance
+        .collection('attendance')
+        .where('uid', isEqualTo: uid)
+        .where('date', isGreaterThanOrEqualTo: startOfCurrentDate)
+        .where('date', isLessThan: endOfCurrentDate)
+        .get();
 
-      // Check if attendance record already exists for the current user and current date
-      DateTime startOfCurrentDate = DateTime(currentDate.year, currentDate.month, currentDate.day);
-      DateTime endOfCurrentDate = startOfCurrentDate.add(Duration(days: 1));
+    if (attendanceSnapshot.docs.isNotEmpty) {
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('You have already marked your attendance for today.'),
+            actions: [
+              TextButton(
+                child: Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      try {
+        await FirebaseFirestore.instance.collection('attendance').add({
+          'uid': uid,
+          'studentname': studentname,
+          'fatherName': fatherName,
+          'date': currentDate,
+        });
 
-      QuerySnapshot attendanceSnapshot = await FirebaseFirestore.instance
-          .collection('attendance')
-          .where('uid', isEqualTo: uid)
-          .where('date', isGreaterThanOrEqualTo: startOfCurrentDate)
-          .where('date', isLessThan: endOfCurrentDate)
-          .get();
+        setState(() {
+          hasMarkedAttendance = true;
+        });
 
-      if (attendanceSnapshot.docs.isNotEmpty) {
         showDialog(
           context: context,
           builder: (BuildContext context) {
             return AlertDialog(
-              title: Text('Error'),
-              content: Text('You have already marked your attendance for today.'),
+              title: Text('Success'),
+              content: Text('Your attendance has been marked.'),
               actions: [
                 TextButton(
                   child: Text('OK'),
@@ -97,57 +122,27 @@ class _UserDashBoardState extends State<UserDashBoard> {
             );
           },
         );
-      } else {
-        try {
-          await FirebaseFirestore.instance.collection('attendance').add({
-            'uid': uid,
-            'studentname': studentname,
-            'fathername': fathername,
-            'date': currentDate,
-          });
-
-          setState(() {
-            hasMarkedAttendance = true;
-          });
-
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Success'),
-                content: Text('Your attendance has been marked.'),
-                actions: [
-                  TextButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-        } catch (error) {
-          showDialog(
-            context: context,
-            builder: (BuildContext context) {
-              return AlertDialog(
-                title: Text('Error'),
-                content: Text('Failed to mark your attendance. Please try again.'),
-                actions: [
-                  TextButton(
-                    child: Text('OK'),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
-            },
-          );
-
+      } catch (error) {
+        showDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Failed to mark your attendance. Please try again.'),
+              actions: [
+                TextButton(
+                  child: Text('OK'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              ],
+            );
+          },
+        );
       }
     }
   }
+
 
 }
