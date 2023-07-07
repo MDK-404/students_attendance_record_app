@@ -51,8 +51,6 @@ class _UserDashBoardState extends State<UserDashBoard> {
   }
 
   void markAttendance() async {
-
-
     String? uid = FirebaseAuth.instance.currentUser?.uid;
     String studentname = '';
     String fatherName = '';
