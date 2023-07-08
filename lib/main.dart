@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:students_attendance_app/screens/admin_login.dart';
 import 'package:students_attendance_app/screens/home_screen.dart';
 
 import 'package:students_attendance_app/screens/login_screen.dart';
@@ -73,7 +74,8 @@ class MyApp extends StatelessWidget {
           'home': (context) => HomeScreen(),
           'signup': (context) => SignupScreen(),
           'user login': (context) => Login_Screen(),
-          'user_dashboard':(context)=>UserDashBoard()
+          'user_dashboard':(context)=>UserDashBoard(),
+          'admin login':(context)=>AdminLoginScreen(),
 
 
         },

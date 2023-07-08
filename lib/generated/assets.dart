@@ -8,10 +8,12 @@ class Assets {
   static const String libMain = 'lib/main.dart';
   static const String modelsAttendance = 'lib/models/attendance.dart';
   static const String modelsStudents = 'lib/models/students.dart';
+  static const String resourcesAdminCredentials = 'lib/resources/admin_credentials.dart';
   static const String resourcesAuthMethods = 'lib/resources/auth_methods.dart';
   static const String resourcesProvider = 'lib/resources/provider.dart';
   static const String resourcesStorageMethods = 'lib/resources/storage_methods.dart';
   static const String screensAdminDashboard = 'lib/screens/admin_dashboard.dart';
+  static const String screensAdminLogin = 'lib/screens/admin_login.dart';
   static const String screensHomeScreen = 'lib/screens/home_screen.dart';
   static const String screensLoginScreen = 'lib/screens/login_screen.dart';
   static const String screensRegisterScreen = 'lib/screens/register_screen.dart';

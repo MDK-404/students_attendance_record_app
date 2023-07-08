@@ -40,7 +40,7 @@ class HomeScreen extends StatelessWidget {
                     ElevatedButton(
                       onPressed: () {
                         // Handle Admin Panel button pressed
-                        Navigator.pushNamed(context, '/admin');
+                        Navigator.pushNamed(context, 'admin login');
                       },
                       style: ElevatedButton.styleFrom(
                         primary: Colors.green, // Replace with desired button color

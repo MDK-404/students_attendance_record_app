@@ -72,7 +72,7 @@ class _Login_ScreenState extends State<Login_Screen> {
                   ),
                   const SizedBox(height: 16),
                   TextField(
-                    style: const TextStyle(),
+                    style: const TextStyle(color: Colors.black),
                     obscureText: true,
                     decoration: InputDecoration(
                       fillColor: Colors.grey.shade100,

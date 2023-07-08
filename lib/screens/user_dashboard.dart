@@ -6,21 +6,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  // runApp(MyApp());
+  runApp(MyApp());
 }
 
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       title: 'Attendance App',
-//       theme: ThemeData(
-//         primarySwatch: Colors.blue,
-//       ),
-//       home: UserDashBoard(),
-//     );
-//   }
-// }
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Attendance App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: UserDashBoard(),
+    );
+  }
+}
 
 class UserDashBoard extends StatefulWidget {
   @override
@@ -36,15 +36,23 @@ class _UserDashBoardState extends State<UserDashBoard> {
       appBar: AppBar(
         title: Text('User Panel'),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ElevatedButton(
-              onPressed: hasMarkedAttendance ? null : markAttendance,
-              child: Text('Mark Attendance'),
-            ),
-          ],
+      body: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('lib/assets/Login.jpg'),
+            fit: BoxFit.fill,
+          ),
+        ),
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ElevatedButton(
+                onPressed: hasMarkedAttendance ? null : markAttendance,
+                child: Text('Mark Attendance'),
+              ),
+            ],
+          ),
         ),
       ),
     );
